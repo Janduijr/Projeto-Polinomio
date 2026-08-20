@@ -86,33 +86,57 @@ class Lista():
             print('Existe valor!')
         else:
             print('Nao existe valor!')
+    
+    def excluir(self,no):
+        if no is None or self.cabeca is None:
+            print('Nao e possivel excluir!')
+            return
 
+        if self.cabeca is no:
+            self.cabeca = self.cabeca.proximo
+            self.tamanho -= 1
+            return
+
+        atual = self.cabeca
+        while atual.proximo is not None:
+            if atual.proximo is no:
+                atual.proximo = atual.proximo.proximo
+                self.tamanho -= 1
+                return
+            atual = atual.proximo
         
-         
+        print('No nao encontrado!')
+    
+    def main(self):
+        self = Lista()
+        self.inserir(3,4)
+        self.inserir(1,2)
+        self.inserir(8,9)
+        self.inserir(10,3)
+
+
+        #NOS:
+        primeiro = self.cabeca
+        segundo = self.cabeca.proximo
+        terceiro = segundo.proximo
+        quarto = terceiro.proximo
+
+        self.existe(quarto)
+        self.obter_Valor(segundo)
+        self.obter_Proximo(terceiro)
+        self.alterar_no(segundo,6,7)
+        self.exibir_all()
+        self.exibir_tamanho()
+        self.buscar(8)
+        
+lista1 = Lista()
+lista1.main()
     
         
         
 
 
-lista1 = Lista()
-lista1.inserir(3,4)
-lista1.inserir(1,2)
-lista1.inserir(8,9)
 
-
-#NOS:
-primeiro = lista1.cabeca
-segundo = lista1.cabeca.proximo
-terceiro = segundo.proximo
-quarto = terceiro.proximo
-
-lista1.existe(quarto)
-lista1.obter_Valor(segundo)
-lista1.obter_Proximo(terceiro)
-lista1.alterar_no(segundo,6,7)
-lista1.exibir_all()
-lista1.exibir_tamanho()
-lista1.buscar(8)
 
 
 
