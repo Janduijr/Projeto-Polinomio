@@ -52,6 +52,9 @@ class Lista():
             return
         print('Valores do No:')
         print(f'Coeficiente: {no.coeficiente}\nGrau: {no.grau}')
+    
+    def exibir_tamanho(self):
+        print(f'A lista possui {self.tamanho} termos!')
  
     
     def main(self,a):
@@ -69,6 +72,8 @@ class Lista():
         
         if a == 'G' or a == 'g':
             self.exibir_all()
+        elif a == 't' or a == 'T':
+            self.exibir_tamanho()
 
 a = ''     
 lista1 = Lista()
