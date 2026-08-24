@@ -11,13 +11,18 @@ class Lista():
     
     def inserir(self, coeficiente, grau):
         novo = No(coeficiente, grau)
-        if self.cabeca is None:
+    
+        if self.cabeca is None or grau > self.cabeca.grau:
+            novo.proximo = self.cabeca
             self.cabeca = novo
             self.tamanho += 1
             return
+        
         atual = self.cabeca
-        while atual.proximo is not None:
+        while atual.proximo is not None and atual.proximo.grau >= grau:
             atual = atual.proximo
+        
+        novo.proximo = atual.proximo
         atual.proximo = novo
         self.tamanho += 1
     
@@ -47,11 +52,11 @@ class Lista():
 
     def exibir_grau(self):
         atual = self.cabeca
-        maior = atual.grau
-                
         if atual is None:
-            print('A lista esta vazia!')
-            return
+                print('A lista esta vazia!')
+                return
+            
+        maior = atual.grau
                 
         print('O polinomio possui grau:', end= '')
         while atual is not None:
@@ -70,23 +75,73 @@ class Lista():
     
     def exibir_tamanho(self):
         print(f'A lista possui {self.tamanho} termos!')
+        
+    def buscar_por_grau(self, grau): 
+        atual = self.cabeca
+        while atual is not None:
+            if atual.grau == grau:
+                return atual
+            atual = atual.proximo
+        return None
+    
+    def somar(self,outro):
+        resultado = Lista()
+        
+        atual = self.cabeca
+        while atual is not None:
+            resultado.inserir(atual.coeficiente, atual.grau)
+            atual = atual.proximo
+        
+        atual = outro.cabeca
+        while atual is not None:
+            existente = resultado.buscar_por_grau(atual.grau)
+            if existente is not None:
+                existente.coeficiente += atual.coeficiente
+            else:
+                resultado.inserir(atual.coeficiente, atual.grau)
+            atual = atual.proximo
+        
+        return resultado
+    
+    def subtrair(self,outro):
+            resultado = Lista()
+            
+            atual = self.cabeca
+            while atual is not None:
+                resultado.inserir(atual.coeficiente, atual.grau)
+                atual = atual.proximo
+            
+            atual = outro.cabeca
+            while atual is not None:
+                existente = resultado.buscar_por_grau(atual.grau)
+                if existente is not None:
+                    existente.coeficiente -= atual.coeficiente
+                else:
+                    resultado.inserir(-atual.coeficiente, atual.grau)
+                atual = atual.proximo
+            
+            return resultado
+            
+            
+            
+        
  
         
         
 
 a = ''     
-listas = {'1': Lista(), '2': Lista()}
+listas = {'1': Lista(), '2': Lista(), 'resultado': Lista()}
 
 atual = '1'
 
-listas['1'].inserir(5, 3)
-listas['1'].inserir(2, 2)
-listas['1'].inserir(-4, 1)
-listas['1'].inserir(7, 0)
-listas['2'].inserir(6, 6)
-listas['2'].inserir(8, 2)
-listas['2'].inserir(-4, 1)
-listas['2'].inserir(8, 0)
+listas['1'].inserir(-3, 5)
+listas['1'].inserir(6, 3)
+listas['1'].inserir(-7, 1)
+listas['1'].inserir(8, 0)
+listas['2'].inserir(8, 1)
+listas['2'].inserir(6, 4)
+listas['2'].inserir(-2, 0)
+
 
 while True:
     a = str(input('\nDigite algo: '))
@@ -98,12 +153,38 @@ while True:
     elif a == '2':
         print('Voce mudou para o polinomio 2!')
         atual = '2'
+    elif a == 'r':
+        atual = 'resultado'
+        print('Voce mudou para o polinomio de resultados!')
     elif a == 'g' or a == 'G':
         listas[atual].exibir_grau()
     elif a == 't' or a == 'T':
         listas[atual].exibir_tamanho()
     elif a == 'a' or a == 'A':
         listas[atual].exibir_all()
+    elif a == '+':
+        if atual == '1':
+            outra = '2'
+            listas['resultado'] = listas[atual].somar(listas[outra])
+            atual = 'resultado'
+            print('Soma calculada! Digite "a" para ver o resultado.')
+        elif atual == '2':
+            outra = '1'
+            listas['resultado'] = listas[atual].somar(listas[outra])
+            atual = 'resultado'
+            print('Soma calculada! Digite "a" para ver o resultado.')
+    elif a == '-':
+        if atual == '1':
+            outra = '2'
+            listas['resultado'] = listas[atual].subtrair(listas[outra])
+            atual = 'resultado'
+            print('Subtração calculada! Digite "a" para ver o resultado.')
+        elif atual == '2':
+            outra = '1'
+            listas['resultado'] = listas[atual].subtrair(listas[outra])
+            atual = 'resultado'
+            print('Subtração calculada! Digite "a" para ver o resultado.')
+            
 
     
     
