@@ -44,6 +44,21 @@ class Lista():
             else:
                 print(f'{sinal}{atual.coeficiente}X^{atual.grau} ', end='')
             atual = atual.proximo
+
+    def exibir_grau(self):
+        atual = self.cabeca
+        maior = atual.grau
+                
+        if atual is None:
+            print('A lista esta vazia!')
+            return
+                
+        print('O polinomio possui grau:', end= '')
+        while atual is not None:
+            if atual.grau > maior:
+                maior = atual.grau
+            atual = atual.proximo
+        print(maior)
     
     
     def obter_Valor(self, no):
@@ -56,30 +71,39 @@ class Lista():
     def exibir_tamanho(self):
         print(f'A lista possui {self.tamanho} termos!')
  
-    
-    def main(self,a):
-        self = Lista()
-        self.inserir(5, 3)
-        self.inserir(2, 2)
-        self.inserir(-4, 1)
-        self.inserir(7, 0)
-
-        #NOS:
-        primeiro = self.cabeca
-        segundo = self.cabeca.proximo
-        terceiro = segundo.proximo
-        quarto = terceiro.proximo
         
-        if a == 'G' or a == 'g':
-            self.exibir_all()
-        elif a == 't' or a == 'T':
-            self.exibir_tamanho()
+        
 
 a = ''     
-lista1 = Lista()
+listas = {'1': Lista(), '2': Lista()}
+
+atual = '1'
+
+listas['1'].inserir(5, 3)
+listas['1'].inserir(2, 2)
+listas['1'].inserir(-4, 1)
+listas['1'].inserir(7, 0)
+listas['2'].inserir(6, 6)
+listas['2'].inserir(8, 2)
+listas['2'].inserir(-4, 1)
+listas['2'].inserir(8, 0)
+
 while True:
-    a = input('\nDigite algo: ')
+    a = str(input('\nDigite algo: '))
     if a == 'x' or a == 'X':
         break
-    lista1.main(a)
+    elif a == '1':
+        print('Voce mudou para o polinomio 1!')
+        atual = '1'
+    elif a == '2':
+        print('Voce mudou para o polinomio 2!')
+        atual = '2'
+    elif a == 'g' or a == 'G':
+        listas[atual].exibir_grau()
+    elif a == 't' or a == 'T':
+        listas[atual].exibir_tamanho()
+    elif a == 'a' or a == 'A':
+        listas[atual].exibir_all()
+
+    
     
