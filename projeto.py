@@ -204,24 +204,63 @@ class Lista():
             zero = resultado.buscar_por_coefiente()
     
         return resultado
-            
-            
-            
-     
+    
+    
+
+
+#PEGANDO TXT
+def ler_documento():
+    with open('arquivo.txt', 'r') as arquivo:
+        linhas = arquivo.readlines()
+    
+    conteudo = []
+    
+    for linha in linhas:
+        linha = linha.strip()
         
+        if linha == '':
+            continue
+        
+        if linha == '+' or linha == '-' or linha == '*' or linha == 'g' or linha == 'p' or linha == 'a' or linha == 's':
+            conteudo.append(linha)
+        else:
+            partes = linha.split()
+            numeros = []
+            for p in partes:
+                numeros.append(int(p))
+            conteudo.append(numeros)
+    
+    return conteudo
+
+
+def montar_polinomio(numeros):
+    polinomio = Lista()
+    
+    i = 0
+    while i < len(numeros):
+        coeficiente = numeros[i]
+        grau = numeros[i + 1]
+        polinomio.inserir(coeficiente, grau)
+        i += 2
+    
+    return polinomio
+
 
 a = ''     
 listas = {'1': Lista(), '2': Lista(), 'resultado': Lista()}
 
 atual = '1'
 
-listas['1'].inserir(-3, 5)
-listas['1'].inserir(6, 3)
-listas['1'].inserir(-7, 1)
-listas['1'].inserir(8, 0)
-listas['2'].inserir(8, 1)
-listas['2'].inserir(6, 4)
-listas['2'].inserir(-2, 0)
+conteudo = ler_documento()
+polinomios_encontrados = []
+for item in conteudo:
+    if isinstance(item, list):
+        polinomios_encontrados.append(item)
+
+if len(polinomios_encontrados) >= 1:
+    listas['1'] = montar_polinomio(polinomios_encontrados[0])
+if len(polinomios_encontrados) >= 2:
+    listas['2'] = montar_polinomio(polinomios_encontrados[1])
 
 
 while True:
@@ -278,9 +317,3 @@ while True:
         listas['resultado'] = listas[atual].simplificar(listas[outra])
         atual = 'resultado'
         print('Simplificado! Digite "a" para ver o resultado.')
-            
-    
-            
-
-    
-    
