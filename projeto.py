@@ -40,14 +40,14 @@ class Lista():
             else:
                 sinal = '-'
                 
-            atual.coeficiente = abs(atual.coeficiente)
+            coef = abs(atual.coeficiente)
             
             if atual.grau == 0:
-                print(f'{sinal}{atual.coeficiente}', end='')
+                print(f'{sinal}{coef}', end='')
             elif atual.grau == 1:
-                print(f'{sinal}{atual.coeficiente}X ', end='')
+                print(f'{sinal}{coef}X ', end='')
             else:
-                print(f'{sinal}{atual.coeficiente}X^{atual.grau} ', end='')
+                print(f'{sinal}{coef}X^{atual.grau} ', end='')
             atual = atual.proximo
 
     def exibir_grau(self):
@@ -121,12 +121,43 @@ class Lista():
                 atual = atual.proximo
             
             return resultado
-            
-            
-            
         
- 
+    def multiplicar(self, outro):
+        resultado = Lista()
         
+        atual1 = self.cabeca
+        while atual1 is not None:
+            atual2 = outro.cabeca
+            while atual2 is not None:
+                # multiplica coef. e soma graus
+                novo_coeficiente = atual1.coeficiente * atual2.coeficiente
+                novo_grau = atual1.grau + atual2.grau
+                
+                # agrupa se mesmo grau
+                existente = resultado.buscar_por_grau(novo_grau)
+                if existente is not None:
+                    existente.coeficiente += novo_coeficiente
+                else:
+                    resultado.inserir(novo_coeficiente, novo_grau)
+                
+                atual2 = atual2.proximo
+            atual1 = atual1.proximo
+        
+        return resultado
+    
+    def avaliar(self, x):
+        atual = self.cabeca
+        resultado = 0
+        
+        while atual is not None:
+            resultado += atual.coeficiente * (x ** atual.grau)
+            atual = atual.proximo
+        
+        print(f'O valor do polinomio para X = {x} eh: {resultado}')
+            
+            
+            
+     
         
 
 a = ''     
@@ -160,30 +191,35 @@ while True:
         listas[atual].exibir_grau()
     elif a == 't' or a == 'T':
         listas[atual].exibir_tamanho()
-    elif a == 'a' or a == 'A':
+    elif a == 'e' or a == 'E':
         listas[atual].exibir_all()
     elif a == '+':
         if atual == '1':
             outra = '2'
-            listas['resultado'] = listas[atual].somar(listas[outra])
-            atual = 'resultado'
-            print('Soma calculada! Digite "a" para ver o resultado.')
         elif atual == '2':
             outra = '1'
-            listas['resultado'] = listas[atual].somar(listas[outra])
-            atual = 'resultado'
-            print('Soma calculada! Digite "a" para ver o resultado.')
+        listas['resultado'] = listas[atual].somar(listas[outra])
+        atual = 'resultado'
+        print('Soma calculada! Digite "a" para ver o resultado.')
     elif a == '-':
         if atual == '1':
             outra = '2'
-            listas['resultado'] = listas[atual].subtrair(listas[outra])
-            atual = 'resultado'
-            print('Subtração calculada! Digite "a" para ver o resultado.')
         elif atual == '2':
             outra = '1'
-            listas['resultado'] = listas[atual].subtrair(listas[outra])
-            atual = 'resultado'
-            print('Subtração calculada! Digite "a" para ver o resultado.')
+        listas['resultado'] = listas[atual].subtrair(listas[outra])
+        atual = 'resultado'
+        print('Subtração calculada! Digite "a" para ver o resultado.')
+    elif a == '*':
+        if atual == '1':
+            outra = '2'
+        elif atual == '2':
+            outra = '1'
+        listas['resultado'] = listas[atual].multiplicar(listas[outra])
+        atual = 'resultado'
+        print('Multiplicação calculada! Digite "a" para ver o resultado.')
+    elif a == 'a' or a == 'A':
+        x = float(input('Digite o valor de X: '))
+        resultado = listas[atual].avaliar(x)
             
 
     
