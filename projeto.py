@@ -84,6 +84,14 @@ class Lista():
             atual = atual.proximo
         return None
     
+    def buscar_por_coefiente(self): 
+            atual = self.cabeca
+            while atual is not None:
+                if atual.coeficiente == 0:
+                    return atual
+                atual = atual.proximo
+            return None
+    
     def somar(self,outro):
         resultado = Lista()
         
@@ -154,6 +162,48 @@ class Lista():
             atual = atual.proximo
         
         print(f'O valor do polinomio para X = {x} eh: {resultado}')
+        
+    def excluir(self,no):
+        if no is None or self.cabeca is None:
+            print('Nao e possivel excluir!')
+            return
+
+        if self.cabeca is no:
+            self.cabeca = self.cabeca.proximo
+            self.tamanho -= 1
+            return
+
+        atual = self.cabeca
+        while atual.proximo is not None:
+            if atual.proximo is no:
+                atual.proximo = atual.proximo.proximo
+                self.tamanho -= 1
+                return
+            atual = atual.proximo
+        
+    def simplificar(self,outro):
+        resultado = Lista()
+        
+        atual = self.cabeca
+        while atual is not None:
+            resultado.inserir(atual.coeficiente, atual.grau)
+            atual = atual.proximo
+        
+        atual = outro.cabeca
+        while atual is not None:
+            existente = resultado.buscar_por_grau(atual.grau)
+            if existente is not None:
+                existente.coeficiente += atual.coeficiente
+            else:
+                resultado.inserir(atual.coeficiente, atual.grau)
+            atual = atual.proximo
+            
+        zero = resultado.buscar_por_coefiente()
+        while zero is not None:
+            resultado.excluir(zero)
+            zero = resultado.buscar_por_coefiente()
+    
+        return resultado
             
             
             
@@ -191,7 +241,7 @@ while True:
         listas[atual].exibir_grau()
     elif a == 't' or a == 'T':
         listas[atual].exibir_tamanho()
-    elif a == 'e' or a == 'E':
+    elif a == 'p' or a == 'P':
         listas[atual].exibir_all()
     elif a == '+':
         if atual == '1':
@@ -220,6 +270,16 @@ while True:
     elif a == 'a' or a == 'A':
         x = float(input('Digite o valor de X: '))
         resultado = listas[atual].avaliar(x)
+    elif a == 's' or a == 'S':
+        if atual == '1':
+            outra = '2'
+        elif atual == '2':
+            outra = '1'
+        listas['resultado'] = listas[atual].simplificar(listas[outra])
+        atual = 'resultado'
+        print('Simplificado! Digite "a" para ver o resultado.')
+            
+    
             
 
     
