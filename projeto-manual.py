@@ -137,9 +137,11 @@ class Lista():
         while atual1 is not None:
             atual2 = outro.cabeca
             while atual2 is not None:
+                # multiplica coef. e soma graus
                 novo_coeficiente = atual1.coeficiente * atual2.coeficiente
                 novo_grau = atual1.grau + atual2.grau
                 
+                # agrupa se mesmo grau
                 existente = resultado.buscar_por_grau(novo_grau)
                 if existente is not None:
                     existente.coeficiente += novo_coeficiente
@@ -202,6 +204,8 @@ class Lista():
             zero = resultado.buscar_por_coefiente()
     
         return resultado
+    
+    
 
 
 #PEGANDO TXT
@@ -242,60 +246,86 @@ def montar_polinomio(numeros):
     return polinomio
 
 
-conteudo = ler_documento()
+a = ''     
+listas = {'1': Lista(), '2': Lista(), 'resultado': Lista()}
 
-i = 0
-while i < len(conteudo):
-    comando = conteudo[i]
-    
-    if comando == '+':
-        poli1 = montar_polinomio(conteudo[i + 1])
-        poli2 = montar_polinomio(conteudo[i + 2])
-        resultado = poli1.somar(poli2)
-        resultado.exibir_all()
-        print()
-        i += 3
-    
-    elif comando == '-':
-        poli1 = montar_polinomio(conteudo[i + 1])
-        poli2 = montar_polinomio(conteudo[i + 2])
-        resultado = poli1.subtrair(poli2)
-        resultado.exibir_all()
-        print()
-        i += 3
-    
-    elif comando == '*':
-        poli1 = montar_polinomio(conteudo[i + 1])
-        poli2 = montar_polinomio(conteudo[i + 2])
-        resultado = poli1.multiplicar(poli2)
-        resultado.exibir_all()
-        print()
-        i += 3
-    
-    elif comando == 's':
-        poli1 = montar_polinomio(conteudo[i + 1])
-        poli2 = montar_polinomio(conteudo[i + 2])
-        resultado = poli1.simplificar(poli2)
-        resultado.exibir_all()
-        print()
-        i += 3
-    
-    elif comando == 'g':
-        poli = montar_polinomio(conteudo[i + 1])
-        poli.exibir_grau()
-        i += 2
-    
-    elif comando == 'p':
-        poli = montar_polinomio(conteudo[i + 1])
-        poli.exibir_all()
-        print()
-        i += 2
-    
-    elif comando == 'a':
-        poli = montar_polinomio(conteudo[i + 2])
-        x = conteudo[i + 1][0]
-        poli.avaliar(x)
-        i += 3
-    
-    else:
-        i += 1
+atual = '1'
+
+conteudo = ler_documento()
+polinomios_encontrados = []
+for item in conteudo:
+    if isinstance(item, list):
+        polinomios_encontrados.append(item)
+
+if len(polinomios_encontrados) >= 1:
+    listas['1'] = montar_polinomio(polinomios_encontrados[0])
+if len(polinomios_encontrados) >= 2:
+    listas['2'] = montar_polinomio(polinomios_encontrados[1])
+
+
+while True:
+    a = str(input('\nDigite algo: '))
+    if a == 'x' or a == 'X':
+        break
+    elif a == '1':
+        print('Voce mudou para o polinomio 1!')
+        atual = '1'
+    elif a == '2':
+        print('Voce mudou para o polinomio 2!')
+        atual = '2'
+    elif a == 'r':
+        atual = 'resultado'
+        print('Voce mudou para o polinomio de resultados!')
+    elif a == 'g' or a == 'G':
+        listas[atual].exibir_grau()
+    elif a == 't' or a == 'T':
+        listas[atual].exibir_tamanho()
+    elif a == 'p' or a == 'P':
+        listas[atual].exibir_all()
+    elif a == '+':
+        if atual == '1':
+            outra = '2'
+        elif atual == '2':
+            outra = '1'
+        elif atual == 'resultado':
+            atual = '1'
+            outra = '2'
+        listas['resultado'] = listas[atual].somar(listas[outra])
+        atual = 'resultado'
+        print('Soma calculada! Digite "p" para ver o resultado.')
+    elif a == '-':
+        if atual == '1':
+            outra = '2'
+        elif atual == '2':
+            outra = '1'
+        elif atual == 'resultado':
+            atual = '1'
+            outra = '2'    
+        listas['resultado'] = listas[atual].subtrair(listas[outra])
+        atual = 'resultado'
+        print('Subtração calculada! Digite "p" para ver o resultado.')
+    elif a == '*':
+        if atual == '1':
+            outra = '2'
+        elif atual == '2':
+            outra = '1'
+        elif atual == 'resultado':
+            atual = '1'
+            outra = '2'
+        listas['resultado'] = listas[atual].multiplicar(listas[outra])
+        atual = 'resultado'
+        print('Multiplicação calculada! Digite "p" para ver o resultado.')
+    elif a == 'a' or a == 'A':
+        x = float(input('Digite o valor de X: '))
+        resultado = listas[atual].avaliar(x)
+    elif a == 's' or a == 'S':
+        if atual == '1':
+            outra = '2'
+        elif atual == '2':
+            outra = '1'
+        elif atual == 'resultado':
+            atual = '1'
+            outra = '2'
+        listas['resultado'] = listas[atual].simplificar(listas[outra])
+        atual = 'resultado'
+        print('Simplificado! Digite "p" para ver o resultado.')
