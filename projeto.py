@@ -287,25 +287,34 @@ while True:
             outra = '2'
         elif atual == '2':
             outra = '1'
+        elif atual == 'resultado':
+            atual = '1'
+            outra = '2'
         listas['resultado'] = listas[atual].somar(listas[outra])
         atual = 'resultado'
-        print('Soma calculada! Digite "a" para ver o resultado.')
+        print('Soma calculada! Digite "p" para ver o resultado.')
     elif a == '-':
         if atual == '1':
             outra = '2'
         elif atual == '2':
             outra = '1'
+        elif atual == 'resultado':
+            atual = '1'
+            outra = '2'    
         listas['resultado'] = listas[atual].subtrair(listas[outra])
         atual = 'resultado'
-        print('Subtração calculada! Digite "a" para ver o resultado.')
+        print('Subtração calculada! Digite "p" para ver o resultado.')
     elif a == '*':
         if atual == '1':
             outra = '2'
         elif atual == '2':
             outra = '1'
+        elif atual == 'resultado':
+            atual = '1'
+            outra = '2'
         listas['resultado'] = listas[atual].multiplicar(listas[outra])
         atual = 'resultado'
-        print('Multiplicação calculada! Digite "a" para ver o resultado.')
+        print('Multiplicação calculada! Digite "p" para ver o resultado.')
     elif a == 'a' or a == 'A':
         x = float(input('Digite o valor de X: '))
         resultado = listas[atual].avaliar(x)
@@ -314,6 +323,9 @@ while True:
             outra = '2'
         elif atual == '2':
             outra = '1'
+        elif atual == 'resultado':
+            atual = '1'
+            outra = '2'
         listas['resultado'] = listas[atual].simplificar(listas[outra])
         atual = 'resultado'
-        print('Simplificado! Digite "a" para ver o resultado.')
+        print('Simplificado! Digite "p" para ver o resultado.')
