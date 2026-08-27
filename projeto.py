@@ -63,8 +63,8 @@ class Lista():
             if atual.grau > maior:
                 maior = atual.grau
             atual = atual.proximo
-        print(maior)
-    
+        print(maior,'\n')
+        
     
     def obter_Valor(self, no):
         if no is None:
@@ -159,7 +159,7 @@ class Lista():
             resultado += atual.coeficiente * (x ** atual.grau)
             atual = atual.proximo
         
-        print(f'O valor do polinomio para X = {x} eh: {resultado}')
+        print(f'O valor do polinomio para X = {x} eh: {resultado}\n')
         
     def excluir(self,no):
         if no is None or self.cabeca is None:
@@ -243,59 +243,75 @@ def montar_polinomio(numeros):
 
 
 conteudo = ler_documento()
-
+vezes = 0
 i = 0
 while i < len(conteudo):
     comando = conteudo[i]
     
     if comando == '+':
+        print(f'Exibindo comando Somar: ({vezes})')
         poli1 = montar_polinomio(conteudo[i + 1])
         poli2 = montar_polinomio(conteudo[i + 2])
         resultado = poli1.somar(poli2)
         resultado.exibir_all()
-        print()
+        print('\n')
+        vezes += 1
         i += 3
     
     elif comando == '-':
+        print(f'Exibindo comando Subtrair: ({vezes})')
         poli1 = montar_polinomio(conteudo[i + 1])
         poli2 = montar_polinomio(conteudo[i + 2])
         resultado = poli1.subtrair(poli2)
         resultado.exibir_all()
-        print()
+        print('\n')
+        vezes += 1
         i += 3
     
     elif comando == '*':
+        print(f'Exibindo comando Mutiplicar: ({vezes})')
         poli1 = montar_polinomio(conteudo[i + 1])
         poli2 = montar_polinomio(conteudo[i + 2])
         resultado = poli1.multiplicar(poli2)
         resultado.exibir_all()
-        print()
+        print('\n')
+        vezes += 1
         i += 3
     
     elif comando == 's':
+        print(f'Exibindo comando Simplificar: ({vezes})')
         poli1 = montar_polinomio(conteudo[i + 1])
         poli2 = montar_polinomio(conteudo[i + 2])
         resultado = poli1.simplificar(poli2)
         resultado.exibir_all()
-        print()
+        print('\n')
+        vezes += 1
         i += 3
     
     elif comando == 'g':
+        print(f'Exibindo comando para exibir grau: ({vezes})')
         poli = montar_polinomio(conteudo[i + 1])
         poli.exibir_grau()
+        vezes += 1
         i += 2
     
     elif comando == 'p':
+        print(f'Exibindo comando de exibir polinomio: ({vezes})')
         poli = montar_polinomio(conteudo[i + 1])
         poli.exibir_all()
-        print()
+        print('\n')
+        vezes += 1
         i += 2
     
     elif comando == 'a':
+        print(f'Exibindo comando de Avaliar: ({vezes})')
         poli = montar_polinomio(conteudo[i + 2])
         x = conteudo[i + 1][0]
         poli.avaliar(x)
+        vezes += 1
         i += 3
+        
     
     else:
         i += 1
+        
