@@ -25,7 +25,9 @@ Antes do(s) polinômio(s), você coloca uma letra ou símbolo dizendo o que quer
 - `*` → multiplicar dois polinômios
 - `g` → ver o grau de um polinômio
 - `p` → ver o polinômio formatado
+- `s` → simplifica um polinômio
 - `a` → calcular o valor do polinômio para um número (X)
+- `t` → mostra o tamanho do poliômio
 
 ## Exemplo pronto
 

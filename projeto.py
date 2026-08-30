@@ -200,8 +200,8 @@ def ler_documento():
         if linha == '':
             continue
         
-        if linha == '+' or linha == '-' or linha == '*' or linha == 'g' or linha == 'p' or linha == 'a' or linha == 's' or linha == 't':
-            conteudo.append(linha)
+        if linha.lower() in ('+', '-', '*', 'g', 'p', 'a', 's', 't'):
+            conteudo.append(linha.lower())
         else:
             partes = linha.split()
             numeros = []
