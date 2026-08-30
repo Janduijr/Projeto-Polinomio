@@ -179,29 +179,12 @@ class Lista():
                 return
             atual = atual.proximo
         
-    def simplificar(self,outro):
-        resultado = Lista()
-        
-        atual = self.cabeca
-        while atual is not None:
-            resultado.inserir(atual.coeficiente, atual.grau)
-            atual = atual.proximo
-        
-        atual = outro.cabeca
-        while atual is not None:
-            existente = resultado.buscar_por_grau(atual.grau)
-            if existente is not None:
-                existente.coeficiente += atual.coeficiente
-            else:
-                resultado.inserir(atual.coeficiente, atual.grau)
-            atual = atual.proximo
-            
-        zero = resultado.buscar_por_coefiente()
+    def simplificar(self):
+        zero = self.buscar_por_coefiente()
         while zero is not None:
-            resultado.excluir(zero)
-            zero = resultado.buscar_por_coefiente()
-    
-        return resultado
+            self.excluir(zero)
+            zero = self.buscar_por_coefiente()
+        return self
 
 
 #PEGANDO TXT
@@ -217,7 +200,7 @@ def ler_documento():
         if linha == '':
             continue
         
-        if linha == '+' or linha == '-' or linha == '*' or linha == 'g' or linha == 'p' or linha == 'a' or linha == 's':
+        if linha == '+' or linha == '-' or linha == '*' or linha == 'g' or linha == 'p' or linha == 'a' or linha == 's' or linha == 't':
             conteudo.append(linha)
         else:
             partes = linha.split()
@@ -280,13 +263,12 @@ while i < len(conteudo):
     
     elif comando == 's':
         print(f'Exibindo comando Simplificar: ({vezes})')
-        poli1 = montar_polinomio(conteudo[i + 1])
-        poli2 = montar_polinomio(conteudo[i + 2])
-        resultado = poli1.simplificar(poli2)
-        resultado.exibir_all()
+        poli = montar_polinomio(conteudo[i + 1])
+        poli.simplificar()
+        poli.exibir_all()
         print('\n')
         vezes += 1
-        i += 3
+        i += 2
     
     elif comando == 'g':
         print(f'Exibindo comando para exibir grau: ({vezes})')
@@ -310,6 +292,13 @@ while i < len(conteudo):
         poli.avaliar(x)
         vezes += 1
         i += 3
+        
+    elif comando == 't':
+        print(f'Exibindo comando de Tamanho: ({vezes})')
+        poli = montar_polinomio(conteudo[i + 1])
+        poli.exibir_tamanho()
+        vezes += 1
+        i += 2
         
     
     else:
